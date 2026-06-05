@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RW Tickets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      width: 280px;
+      padding: 16px;
+      background: #fff;
+      color: #1a1a1a;
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #003d99;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #003d99;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:disabled {
+      background: #aac0e8;
+      cursor: not-allowed;
+    }
+    #status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #444;
+      min-height: 18px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <h1>RW Ticket Downloader</h1>
+  <button id="btn">Скачать билеты</button>
+  <p id="status"></p>
+  <script src="popup.js"></script>
+</body>
+</html>

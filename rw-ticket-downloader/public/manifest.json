@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "RW Ticket Downloader",
+  "description": "Автоматически скачивает PDF-тикеты с pass.rw.by и сохраняет как изображения",
+  "version": "1.0.0",
+  "author": "RWTicket",
+  "icons": {
+    "48": "icons/icon48.png",
+    "96": "icons/icon96.png"
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icon48.png",
+      "96": "icons/icon96.png"
+    },
+    "default_title": "RW Ticket Downloader"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://pass.rw.by/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "*://pass.rw.by/*"
+  ],
+  "web_accessible_resources": ["pdf.worker.min.js"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "rw-ticket-downloader@local",
+      "strict_min_version": "109.0"
+    }
+  }
+}
