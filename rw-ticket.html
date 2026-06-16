@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>БЧ — Скачать билеты</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4ff;
+      color: #1a1a2e;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,61,153,.10);
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #003d99;
+      margin-bottom: 4px;
+    }
+    .subtitle { color: #6b7280; font-size: 0.9rem; }
+
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #003d99;
+      margin-bottom: 14px;
+    }
+
+    .steps { list-style: none; }
+    .steps li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: #003d99;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+    }
+    .step-text {
+      padding-top: 5px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .step-text strong { color: #003d99; }
+
+    .bm-wrap { text-align: center; margin: 8px 0 16px; }
+    .bookmarklet {
+      display: inline-block;
+      background: #003d99;
+      color: #fff !important;
+      font-size: 1rem; font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none !important;
+      cursor: grab;
+      box-shadow: 0 4px 14px rgba(0,61,153,.35);
+      user-select: none;
+    }
+    .bm-hint { font-size: 0.82rem; color: #6b7280; margin-top: 8px; }
+
+    .mobile-section { display: none; }
+    @media (hover: none) and (pointer: coarse) {
+      .desktop-section { display: none; }
+      .mobile-section  { display: block; }
+    }
+
+    .js-code {
+      width: 100%; min-height: 80px;
+      font-family: "Courier New", monospace;
+      font-size: 0.78rem;
+      background: #f8faff;
+      border: 1px solid #c7d7f5;
+      border-radius: 8px;
+      padding: 10px;
+      resize: none;
+      color: #1a1a2e;
+    }
+    .copy-btn {
+      margin-top: 10px; width: 100%;
+      padding: 13px;
+      background: #003d99; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-ok {
+      display: none;
+      text-align: center;
+      color: #16a34a;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: #f0f7ff;
+      border-left: 4px solid #003d99;
+      border-radius: 6px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #374151;
+    }
+    .info-box + .info-box { margin-top: 10px; }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #9ca3af;
+      padding-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Скачать билеты БЧ</h1>
+  <p class="subtitle">Быстрая загрузка PDF-билетов с pass.rw.by</p>
+</div>
+
+<!-- DESKTOP: drag to bookmarks bar -->
+<div class="card desktop-section">
+  <h2>На компьютере</h2>
+  <ol class="steps">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">Перетащи кнопку ниже на <strong>панель закладок</strong> браузера</div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">Открой <strong>pass.rw.by</strong>, войди в аккаунт, перейди на страницу заказа с билетами</div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">Нажми закладку <strong>«Скачать билеты»</strong> — файлы скачаются автоматически</div>
+    </li>
+  </ol>
+  <div class="bm-wrap">
+    <a class="bookmarklet" id="bmLink" href="#" title="Перетащи на панель закладок">
+      Скачать билеты
+    </a>
+    <p class="bm-hint">Перетащи кнопку на панель закладок</p>
+  </div>
+</div>
+
+<!-- MOBILE: copy JS, paste as bookmark URL -->
+<div class="card mobile-section">
+  <h2>На телефоне</h2>
+  <ol class="steps">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">Нажми «Копировать код» ниже</div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">Открой <strong>pass.rw.by</strong>, добавь любую страницу в закладки</div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">Зайди в закладки → найди добавленную → <strong>отредактируй URL</strong> → вставь скопированный код</div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-text">Перейди на страницу заказа и нажми созданную закладку</div>
+    </li>
+  </ol>
+  <textarea class="js-code" id="jsCode" readonly></textarea>
+  <button class="copy-btn" onclick="copyCode()">Копировать код</button>
+  <div class="copy-ok" id="copyOk">Скопировано!</div>
+</div>
+
+<div class="card">
+  <h2>Как это работает?</h2>
+  <div class="info-box">
+    Bookmarklet — это закладка браузера с JS-кодом вместо адреса. Когда ты нажимаешь её на pass.rw.by, код запускается прямо на странице и скачивает PDF-билеты, используя твою авторизацию.
+  </div>
+  <div class="info-box" style="margin-top:10px;">
+    Никакие данные никуда не отправляются. Код работает только на pass.rw.by и только загружает файлы на твоё устройство.
+  </div>
+</div>
+
+<footer>pass.rw.by &bull; Беларуская чыгунка</footer>
+
+<script>
+// Build the bookmarklet code and inject it into the page
+(function () {
+  // The bookmarklet logic as a string — runs in context of pass.rw.by
+  // Written as a self-invoking async function, minified manually for compactness.
+  // All string literals use Unicode escapes so the outer JS string is ASCII-safe.
+
+  var bm = '(function(){'
+    + 'var M={\'\u044f\u043d\u0432\u0430\u0440\u044f\':\'01\',\'\u0444\u0435\u0432\u0440\u0430\u043b\u044f\':\'02\',\'\u043c\u0430\u0440\u0442\u0430\':\'03\',\'\u0430\u043f\u0440\u0435\u043b\u044f\':\'04\',\'\u043c\u0430\u044f\':\'05\',\'\u0438\u044e\u043d\u044f\':\'06\',\'\u0438\u044e\u043b\u044f\':\'07\',\'\u0430\u0432\u0433\u0443\u0441\u0442\u0430\':\'08\',\'\u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f\':\'09\',\'\u043e\u043a\u0442\u044f\u0431\u0440\u044f\':\'10\',\'\u043d\u043e\u044f\u0431\u0440\u044f\':\'11\',\'\u0434\u0435\u043a\u0430\u0431\u0440\u044f\':\'12\'};'
+    + 'function meta(){'
+    +   'var h=document.querySelector(\'h1.small\');'
+    +   'var om=h&&h.textContent&&h.textContent.match(/\u2116(\\d+)/);'
+    +   'var on=om?om[1]:\'unknown\';'
+    +   'var cs=Array.from(document.querySelectorAll(\'.caption\'));'
+    +   'var pc=cs.find(function(e){return e.textContent&&e.textContent.includes(\'\u041e\u043f\u043b\u0430\u0447\u0435\u043d\');});'
+    +   'var dm=pc&&pc.textContent&&pc.textContent.match(/(\\d{1,2})\\s+(\\S+)\\s+(\\d{4})/);'
+    +   'var d=\'unknown-date\';'
+    +   'if(dm){var dy=dm[1].length<2?\'0\'+dm[1]:dm[1];var mo=M[dm[2]]||\'00\';d=dm[3]+\'-\'+mo+\'-\'+dy;}'
+    +   'return{orderNum:on,date:d};'
+    + '}'
+    + 'function links(){'
+    +   'var aa=Array.from(document.querySelectorAll(\'a[href]\'));'
+    +   'var seen={};var u=[];'
+    +   'for(var i=0;i<aa.length;i++){'
+    +     'var h=aa[i].href;'
+    +     'if(!h||seen[h])continue;'
+    +     'if(h.indexOf(\'http\')!==0)continue;'
+    +     'if(h.slice(-1)===\'#\')continue;'
+    +     'var l=h.toLowerCase();'
+    +     'if(l.indexOf(\'pdf=1\')!==-1||l.slice(-4)===\'.pdf\'||l.indexOf(\'.pdf?\')!==-1||l.indexOf(\'/ticket/pdf\')!==-1||l.indexOf(\'/pdf/ticket\')!==-1){'
+    +       'seen[h]=true;u.push(h);'
+    +     '}'
+    +   '}'
+    +   'return u;'
+    + '}'
+    + 'function show(msg){'
+    +   'var el=document.getElementById(\'__rwbm\');'
+    +   'if(!el){el=document.createElement(\'div\');el.id=\'__rwbm\';el.style.cssText=\'position:fixed;top:20px;right:20px;z-index:999999;background:#003d99;color:#fff;padding:14px 20px;border-radius:12px;font-family:sans-serif;font-size:14px;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.35);line-height:1.4;\';document.body.appendChild(el);}'
+    +   'el.textContent=msg;'
+    + '}'
+    + 'function hide(){var el=document.getElementById(\'__rwbm\');if(el)setTimeout(function(){el.remove();},3000);}'
+    + 'function dl(blob,name){'
+    +   'var u=URL.createObjectURL(blob);'
+    +   'var a=document.createElement(\'a\');a.href=u;a.download=name;'
+    +   'document.body.appendChild(a);a.click();'
+    +   'setTimeout(function(){a.remove();URL.revokeObjectURL(u);},5000);'
+    + '}'
+    + 'async function run(){'
+    +   'var u=links();'
+    +   'if(u.length===0){show(\'\u0411\u0438\u043b\u0435\u0442\u044b PDF \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u044b \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435\');hide();return;}'
+    +   'show(\'\u041d\u0430\u0439\u0434\u0435\u043d\u043e \'+u.length+\' \u0431\u0438\u043b\u0435\u0442(\u043e\u0432). \u0421\u043a\u0430\u0447\u0438\u0432\u0430\u043d\u0438\u0435...\');'
+    +   'var m=meta();var saved=0,failed=0;'
+    +   'for(var i=0;i<u.length;i++){'
+    +     'show(\'\u041e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0430 \'+(i+1)+\'/\'+u.length+\'...\');'
+    +     'try{'
+    +       'var r=await fetch(u[i],{credentials:\'include\'});'
+    +       'if(!r.ok)throw new Error(\'HTTP \'+r.status);'
+    +       'var b=await r.blob();'
+    +       'var ext=(b.type===\'application/pdf\')?\'pdf\':\'bin\';'
+    +       'var fn=\'ticket_\'+m.date+\'_\'+m.orderNum+\'_\'+(i+1)+\'.\'+ext;'
+    +       'dl(b,fn);saved++;'
+    +     '}catch(e){console.error(\'rw-bm:\',u[i],e);failed++;}'
+    +   '}'
+    +   'show(\'\u0413\u043e\u0442\u043e\u0432\u043e: \u0441\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u043e \'+saved+(failed>0?\', \u043e\u0448\u0438\u0431\u043e\u043a \'+failed:\'\'));'
+    +   'hide();'
+    + '}'
+    + 'run();'
+    + '})();';
+
+  var href = 'javascript:' + encodeURIComponent(bm);
+
+  document.getElementById('bmLink').href = href;
+  document.getElementById('jsCode').value = 'javascript:' + bm;
+})();
+
+function copyCode() {
+  var ta = document.getElementById('jsCode');
+  var ok = document.getElementById('copyOk');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ta.value).then(function () {
+      flashOk();
+    }).catch(function () { fallback(ta); });
+  } else {
+    fallback(ta);
+  }
+}
+function fallback(ta) {
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  flashOk();
+}
+function flashOk() {
+  var el = document.getElementById('copyOk');
+  el.style.display = 'block';
+  setTimeout(function () { el.style.display = 'none'; }, 2500);
+}
+</script>
+</body>
+</html>
