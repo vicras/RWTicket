@@ -24,7 +24,7 @@ try:
     import requests
 except ImportError:
     import sys
-    print("Установи зависимости: pip install requests PyPDF2")
+    print("Установи зависимости: pip install requests PyPDF2 pymupdf")
     sys.exit(1)
 
 # ── Константы ─────────────────────────────────────────────────────────────────
@@ -36,7 +36,8 @@ CONF_FILE = Path.home() / ".rw-ticket.conf"
 DOWNLOAD_DIR = Path("/sdcard/Download")
 if not DOWNLOAD_DIR.exists():
     DOWNLOAD_DIR = Path.home() / "Downloads"
-DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
+TICKET_DIR = DOWNLOAD_DIR / "rw-ticket"
+TICKET_DIR.mkdir(parents=True, exist_ok=True)
 
 PORT = 8765
 
@@ -154,6 +155,18 @@ def fetch_orders(session, order_type):
 
 
 # ── Скачивание и merge ────────────────────────────────────────────────────────
+def pdf_to_jpg(pdf_path, jpg_path):
+    try:
+        import fitz
+        doc = fitz.open(str(pdf_path))
+        page = doc[0]
+        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+        pix.save(str(jpg_path))
+        doc.close()
+        return True
+    except Exception as e:
+        log(f"  → Не удалось конвертировать в JPG: {e}")
+        return False
 def merge_pdfs(pdf_paths, output_path):
     try:
         from PyPDF2 import PdfMerger
@@ -207,10 +220,13 @@ def download_tickets(login, password):
             try:
                 r = session.get(pdf_url, timeout=60)
                 r.raise_for_status()
-                tmp = DOWNLOAD_DIR / f"_rw_tmp_{i}.pdf"
-                tmp.write_bytes(r.content)
-                all_pdfs.append(tmp)
+                pdf_path = TICKET_DIR / f"ticket_{ets}.pdf"
+                pdf_path.write_bytes(r.content)
+                all_pdfs.append(pdf_path)
                 log(f"  → OK ({len(r.content) // 1024} KB)")
+
+                jpg_path = TICKET_DIR / f"ticket_{ets}.jpg"
+                pdf_to_jpg(pdf_path, jpg_path)
             except Exception as e:
                 log(f"  → Ошибка: {e}")
 
@@ -219,20 +235,15 @@ def download_tickets(login, password):
             _state["done"] = True
             return
 
-        result_path = DOWNLOAD_DIR / f"tickets_{date.today().isoformat()}.pdf"
+        result_path = TICKET_DIR / f"tickets_{date.today().isoformat()}.pdf"
         merged = merge_pdfs(all_pdfs, result_path)
-
-        for p in all_pdfs:
-            try:
-                p.unlink()
-            except Exception:
-                pass
 
         if merged:
             log(f"Готово! Файл: {result_path}")
             _state["result_file"] = str(result_path)
+            subprocess.Popen(["termux-open", str(result_path)])
         else:
-            log(f"Сохранено {len(all_pdfs)} файлов в {DOWNLOAD_DIR}")
+            log(f"Сохранено {len(all_pdfs)} файлов в {TICKET_DIR}")
 
         _state["done"] = True
 
