@@ -23,21 +23,36 @@
       box-shadow: 0 2px 12px rgba(0,61,153,.10);
     }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #003d99;
-      margin-bottom: 4px;
-    }
+    h1 { font-size: 1.4rem; font-weight: 700; color: #003d99; margin-bottom: 4px; }
     .subtitle { color: #6b7280; font-size: 0.9rem; }
+    h2 { font-size: 1.05rem; font-weight: 600; color: #003d99; margin-bottom: 16px; }
 
-    h2 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #003d99;
-      margin-bottom: 14px;
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
     }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #003d99;
+      border-radius: 10px;
+      background: #fff;
+      color: #003d99;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .tab-btn.active {
+      background: #003d99;
+      color: #fff;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
+    /* Steps */
     .steps { list-style: none; }
     .steps li {
       display: flex;
@@ -48,86 +63,60 @@
     .step-num {
       flex-shrink: 0;
       width: 32px; height: 32px;
-      background: #003d99;
-      color: #fff;
+      background: #003d99; color: #fff;
       border-radius: 50%;
-      display: flex;
-      align-items: center; justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.9rem;
     }
-    .step-text {
-      padding-top: 5px;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
+    .step-text { padding-top: 5px; font-size: 0.95rem; line-height: 1.5; }
     .step-text strong { color: #003d99; }
 
-    .bm-wrap { text-align: center; margin: 8px 0 16px; }
+    /* Bookmarklet drag button */
+    .bm-wrap { text-align: center; margin: 8px 0 4px; }
     .bookmarklet {
       display: inline-block;
-      background: #003d99;
-      color: #fff !important;
+      background: #003d99; color: #fff !important;
       font-size: 1rem; font-weight: 700;
-      padding: 14px 28px;
+      padding: 14px 32px;
       border-radius: 12px;
       text-decoration: none !important;
       cursor: grab;
       box-shadow: 0 4px 14px rgba(0,61,153,.35);
       user-select: none;
     }
-    .bm-hint { font-size: 0.82rem; color: #6b7280; margin-top: 8px; }
+    .bm-hint { font-size: 0.82rem; color: #6b7280; margin-top: 8px; text-align: center; }
 
-    .mobile-section { display: none; }
-    @media (hover: none) and (pointer: coarse) {
-      .desktop-section { display: none; }
-      .mobile-section  { display: block; }
-    }
-
+    /* JS code block */
     .js-code {
-      width: 100%; min-height: 80px;
-      font-family: "Courier New", monospace;
-      font-size: 0.78rem;
-      background: #f8faff;
-      border: 1px solid #c7d7f5;
-      border-radius: 8px;
-      padding: 10px;
-      resize: none;
-      color: #1a1a2e;
+      width: 100%; min-height: 72px;
+      font-family: "Courier New", monospace; font-size: 0.78rem;
+      background: #f8faff; border: 1px solid #c7d7f5;
+      border-radius: 8px; padding: 10px;
+      resize: none; color: #1a1a2e;
     }
     .copy-btn {
-      margin-top: 10px; width: 100%;
-      padding: 13px;
+      margin-top: 10px; width: 100%; padding: 13px;
       background: #003d99; color: #fff;
       border: none; border-radius: 10px;
-      font-size: 0.95rem; font-weight: 600;
-      cursor: pointer;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
     }
+    .copy-btn:active { background: #002e80; }
     .copy-ok {
-      display: none;
-      text-align: center;
-      color: #16a34a;
-      font-size: 0.9rem;
-      margin-top: 8px;
-      font-weight: 600;
+      display: none; text-align: center;
+      color: #16a34a; font-size: 0.9rem;
+      margin-top: 8px; font-weight: 600;
     }
 
+    .divider { border: none; border-top: 1px solid #e5eaf5; margin: 16px 0; }
+
     .info-box {
-      background: #f0f7ff;
-      border-left: 4px solid #003d99;
-      border-radius: 6px;
-      padding: 12px 14px;
-      font-size: 0.88rem;
-      line-height: 1.5;
-      color: #374151;
+      background: #f0f7ff; border-left: 4px solid #003d99;
+      border-radius: 6px; padding: 12px 14px;
+      font-size: 0.88rem; line-height: 1.5; color: #374151;
     }
     .info-box + .info-box { margin-top: 10px; }
 
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      padding-bottom: 24px;
-    }
+    footer { text-align: center; font-size: 0.8rem; color: #9ca3af; padding-bottom: 24px; }
   </style>
 </head>
 <body>
@@ -137,76 +126,104 @@
   <p class="subtitle">Быстрая загрузка PDF-билетов с pass.rw.by</p>
 </div>
 
-<!-- DESKTOP: drag to bookmarks bar -->
-<div class="card desktop-section">
-  <h2>На компьютере</h2>
-  <ol class="steps">
-    <li>
-      <div class="step-num">1</div>
-      <div class="step-text">Перетащи кнопку ниже на <strong>панель закладок</strong> браузера</div>
-    </li>
-    <li>
-      <div class="step-num">2</div>
-      <div class="step-text">Открой <strong>pass.rw.by</strong>, войди в аккаунт, перейди на страницу заказа с билетами</div>
-    </li>
-    <li>
-      <div class="step-num">3</div>
-      <div class="step-text">Нажми закладку <strong>«Скачать билеты»</strong> — файлы скачаются автоматически</div>
-    </li>
-  </ol>
-  <div class="bm-wrap">
-    <a class="bookmarklet" id="bmLink" href="#" title="Перетащи на панель закладок">
-      Скачать билеты
-    </a>
-    <p class="bm-hint">Перетащи кнопку на панель закладок</p>
-  </div>
-</div>
+<div class="card">
+  <h2>Инструкция</h2>
 
-<!-- MOBILE: copy JS, paste as bookmark URL -->
-<div class="card mobile-section">
-  <h2>На телефоне</h2>
-  <ol class="steps">
-    <li>
-      <div class="step-num">1</div>
-      <div class="step-text">Нажми «Копировать код» ниже</div>
-    </li>
-    <li>
-      <div class="step-num">2</div>
-      <div class="step-text">Открой <strong>pass.rw.by</strong>, добавь любую страницу в закладки</div>
-    </li>
-    <li>
-      <div class="step-num">3</div>
-      <div class="step-text">Зайди в закладки → найди добавленную → <strong>отредактируй URL</strong> → вставь скопированный код</div>
-    </li>
-    <li>
-      <div class="step-num">4</div>
-      <div class="step-text">Перейди на страницу заказа и нажми созданную закладку</div>
-    </li>
-  </ol>
-  <textarea class="js-code" id="jsCode" readonly></textarea>
-  <button class="copy-btn" onclick="copyCode()">Копировать код</button>
-  <div class="copy-ok" id="copyOk">Скопировано!</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('pc', this)">На компьютере</button>
+    <button class="tab-btn" onclick="switchTab('mobile', this)">На телефоне</button>
+  </div>
+
+  <!-- PC tab -->
+  <div class="tab-panel active" id="tab-pc">
+    <ol class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-text">
+          Включи <strong>панель закладок</strong> в браузере:<br>
+          Firefox: <strong>Вид → Панели инструментов → Панель закладок</strong><br>
+          Chrome: <strong>Ctrl+Shift+B</strong>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-text">Перетащи кнопку ниже на панель закладок</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-text">Открой <strong>pass.rw.by</strong>, войди в аккаунт, перейди на страницу заказа с билетами</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-text">Нажми закладку <strong>«Скачать билеты»</strong> — файлы скачаются автоматически</div>
+      </li>
+    </ol>
+    <div class="bm-wrap">
+      <a class="bookmarklet" id="bmLink" href="#" title="Перетащи на панель закладок">
+        Скачать билеты
+      </a>
+    </div>
+    <p class="bm-hint">Перетащи кнопку на панель закладок</p>
+
+    <hr class="divider">
+
+    <p style="font-size:0.88rem;color:#6b7280;margin-bottom:10px;">
+      Или — если не хочешь включать панель закладок: нажми правой кнопкой на кнопку выше → <strong>«Добавить в закладки»</strong>. Потом открой закладки (<strong>Ctrl+B</strong>) и кликни там.
+    </p>
+  </div>
+
+  <!-- Mobile tab -->
+  <div class="tab-panel" id="tab-mobile">
+    <ol class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-text">Нажми <strong>«Копировать код»</strong> ниже</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-text">Открой <strong>pass.rw.by</strong> в браузере, добавь любую страницу в закладки (через меню браузера)</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Зайди в закладки → найди только что добавленную →
+          <strong>долгое нажатие → Редактировать</strong> →
+          удали адрес и вставь скопированный код → сохрани
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-text">Перейди на страницу заказа на pass.rw.by и нажми созданную закладку — билеты скачаются</div>
+      </li>
+    </ol>
+
+    <textarea class="js-code" id="jsCode" readonly></textarea>
+    <button class="copy-btn" onclick="copyCode()">Копировать код</button>
+    <div class="copy-ok" id="copyOk">Скопировано!</div>
+  </div>
 </div>
 
 <div class="card">
   <h2>Как это работает?</h2>
   <div class="info-box">
-    Bookmarklet — это закладка браузера с JS-кодом вместо адреса. Когда ты нажимаешь её на pass.rw.by, код запускается прямо на странице и скачивает PDF-билеты, используя твою авторизацию.
+    Bookmarklet — это закладка браузера с JS-кодом вместо адреса. Когда нажимаешь её на pass.rw.by, код запускается прямо на странице и скачивает PDF-билеты, используя твою авторизацию.
   </div>
   <div class="info-box" style="margin-top:10px;">
-    Никакие данные никуда не отправляются. Код работает только на pass.rw.by и только загружает файлы на твоё устройство.
+    Никакие данные никуда не отправляются. Код работает только на pass.rw.by и только загружает файлы на устройство.
   </div>
 </div>
 
 <footer>pass.rw.by &bull; Беларуская чыгунка</footer>
 
 <script>
-// Build the bookmarklet code and inject it into the page
-(function () {
-  // The bookmarklet logic as a string — runs in context of pass.rw.by
-  // Written as a self-invoking async function, minified manually for compactness.
-  // All string literals use Unicode escapes so the outer JS string is ASCII-safe.
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
 
+(function () {
   var bm = '(function(){'
     + 'var M={\'\u044f\u043d\u0432\u0430\u0440\u044f\':\'01\',\'\u0444\u0435\u0432\u0440\u0430\u043b\u044f\':\'02\',\'\u043c\u0430\u0440\u0442\u0430\':\'03\',\'\u0430\u043f\u0440\u0435\u043b\u044f\':\'04\',\'\u043c\u0430\u044f\':\'05\',\'\u0438\u044e\u043d\u044f\':\'06\',\'\u0438\u044e\u043b\u044f\':\'07\',\'\u0430\u0432\u0433\u0443\u0441\u0442\u0430\':\'08\',\'\u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f\':\'09\',\'\u043e\u043a\u0442\u044f\u0431\u0440\u044f\':\'10\',\'\u043d\u043e\u044f\u0431\u0440\u044f\':\'11\',\'\u0434\u0435\u043a\u0430\u0431\u0440\u044f\':\'12\'};'
     + 'function meta(){'
@@ -269,19 +286,14 @@
     + 'run();'
     + '})();';
 
-  var href = 'javascript:' + encodeURIComponent(bm);
-
-  document.getElementById('bmLink').href = href;
+  document.getElementById('bmLink').href = 'javascript:' + encodeURIComponent(bm);
   document.getElementById('jsCode').value = 'javascript:' + bm;
 })();
 
 function copyCode() {
   var ta = document.getElementById('jsCode');
-  var ok = document.getElementById('copyOk');
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(ta.value).then(function () {
-      flashOk();
-    }).catch(function () { fallback(ta); });
+    navigator.clipboard.writeText(ta.value).then(flashOk).catch(function () { fallback(ta); });
   } else {
     fallback(ta);
   }
