@@ -15,6 +15,7 @@ import json
 import threading
 import time
 import urllib.parse
+import subprocess
 import webbrowser
 from datetime import date
 from pathlib import Path
@@ -118,7 +119,7 @@ def api_login(login, password):
         "user_key": USER_KEY,
         "device_token": "",
         "refresh_token": "false",
-    }, timeout=15)
+    }, timeout=60)
 
     if r.status_code != 200:
         raise ValueError(f"Ошибка авторизации: {r.status_code}")
@@ -145,7 +146,7 @@ def fetch_orders(session, order_type):
     r = session.get(
         f"{API_URL}/v1/unnumbered/orders",
         params={"user_key": USER_KEY, "orderType": order_type},
-        timeout=15,
+        timeout=60,
     )
     if r.status_code == 200:
         return r.json()
@@ -204,7 +205,7 @@ def download_tickets(login, password):
                 f"?user_key={USER_KEY}"
             )
             try:
-                r = session.get(pdf_url, timeout=30)
+                r = session.get(pdf_url, timeout=60)
                 r.raise_for_status()
                 tmp = DOWNLOAD_DIR / f"_rw_tmp_{i}.pdf"
                 tmp.write_bytes(r.content)
@@ -430,12 +431,18 @@ def _stop_when_done():
     time.sleep(5)
     if _server:
         threading.Thread(target=_server.shutdown, daemon=True).start()
+    subprocess.Popen(["pkill", "-f", "rw-ticket.py"])
 
 
 def main():
     global _server
     _server = http.server.HTTPServer(("127.0.0.1", PORT), Handler)
-    threading.Timer(0.5, lambda: webbrowser.open(f"http://localhost:{PORT}/")).start()
+    def open_browser(url):
+        try:
+            subprocess.Popen(["termux-open-url", url])
+        except Exception:
+            webbrowser.open(url)
+    threading.Timer(0.5, lambda: open_browser(f"http://localhost:{PORT}/")).start()
     threading.Thread(target=_stop_when_done, daemon=True).start()
     print(f"Открываю браузер: http://localhost:{PORT}/")
     try:
