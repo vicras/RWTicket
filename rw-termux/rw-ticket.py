@@ -24,7 +24,7 @@ try:
     import requests
 except ImportError:
     import sys
-    print("Установи зависимости: pip install requests PyPDF2 pymupdf")
+    print("Установи зависимости: pip install requests PyPDF2")
     sys.exit(1)
 
 # ── Константы ─────────────────────────────────────────────────────────────────
@@ -157,12 +157,9 @@ def fetch_orders(session, order_type):
 # ── Скачивание и merge ────────────────────────────────────────────────────────
 def pdf_to_jpg(pdf_path, jpg_path):
     try:
-        import fitz
-        doc = fitz.open(str(pdf_path))
-        page = doc[0]
-        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
-        pix.save(str(jpg_path))
-        doc.close()
+        from pdf2image import convert_from_path
+        images = convert_from_path(str(pdf_path), dpi=150)
+        images[0].save(str(jpg_path), "JPEG")
         return True
     except Exception as e:
         log(f"  → Не удалось конвертировать в JPG: {e}")
@@ -226,7 +223,8 @@ def download_tickets(login, password):
                 log(f"  → OK ({len(r.content) // 1024} KB)")
 
                 jpg_path = TICKET_DIR / f"ticket_{ets}.jpg"
-                pdf_to_jpg(pdf_path, jpg_path)
+                if pdf_to_jpg(pdf_path, jpg_path):
+                    subprocess.Popen(["termux-media-scan", str(jpg_path)])
             except Exception as e:
                 log(f"  → Ошибка: {e}")
 

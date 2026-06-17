@@ -9,7 +9,8 @@ pkg update -y
 pkg install -y python
 
 echo "=== Установка pip-пакетов ==="
-pip install requests PyPDF2 pymupdf
+pkg install -y poppler
+pip install requests PyPDF2 pdf2image
 
 echo "=== Копирую скрипт ==="
 cp rw-ticket.py ~/rw-ticket.py
